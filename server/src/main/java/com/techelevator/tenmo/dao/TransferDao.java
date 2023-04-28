@@ -6,15 +6,15 @@ import com.techelevator.tenmo.model.Transfer;
 import java.util.List;
 
 public interface TransferDao {
-    List<Transfer> findAll();
+    public List<Transfer> findAll();
 
-    Transfer findByTransferId(String transferId);
+    public Transfer findByTransferId(String transferId);
 
-    Transfer findBySenderId(int senderId);
-    Transfer findByReceiverId(int receiverId);
+   public  Transfer findBySenderId(int senderId);
+    public Transfer findByReceiverId(int receiverId);
 
-    int findTransferIdById(int id);
+    public int findTransferIdById(int id);
 
-    boolean create(int userId, double balance);
+    public Transfer create(int userId, double balance);
 
 }

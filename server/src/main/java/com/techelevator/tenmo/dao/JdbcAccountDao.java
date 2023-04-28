@@ -1,10 +1,12 @@
 package com.techelevator.tenmo.dao;
 
 import com.techelevator.tenmo.model.Account;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
 
 public class JdbcAccountDao implements AccountDao {
+    JdbcTemplate jdbcTemplate;
 
 
     @Override
@@ -13,7 +15,7 @@ public class JdbcAccountDao implements AccountDao {
     }
 
     @Override
-    public Account findByAccountId(String accountId) {
+    public Account getAccountById(int accountId) {
         return null;
     }
 
@@ -23,7 +25,9 @@ public class JdbcAccountDao implements AccountDao {
     }
 
     @Override
-    public boolean create(int userId, double balance) {
-        return false;
+    public Account create(Account account) {
+        String sql = "INSERT INTO account (user_id, balance) VALUES (?,?) RETURNING account_id;";
+        int accountId = jdbcTemplate.queryForObject (sql, int.class, account.getUserId(), account.getBalance());
+        return getAccountById(accountId);
     }
 }
