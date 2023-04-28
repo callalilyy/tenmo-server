@@ -7,13 +7,15 @@ import java.util.List;
 
 public interface AccountDao {
 
+    public double getBalance(int accountId);
+
     public List<Account> findAll();
 
-    public   Account getAccountById(int accountId);
+    public Account getAccountById(int accountId);
 
     public int findIdByUserId(String userId);
 
-    public  Account create(Account account);
+    public Account create(Account account);
 
 
 }
