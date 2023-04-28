@@ -3,6 +3,7 @@ package com.techelevator.tenmo.dao;
 import com.techelevator.tenmo.model.Account;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcAccountDao implements AccountDao {
@@ -11,6 +12,8 @@ public class JdbcAccountDao implements AccountDao {
 
     @Override
     public List<Account> findAll() {
+        List<Account> allAccounts = new ArrayList<>();
+
         return null;
     }
 

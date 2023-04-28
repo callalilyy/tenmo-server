@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface AccountDao {
 
-    public   List<Account> findAll();
+    public List<Account> findAll();
 
     public   Account getAccountById(int accountId);
 
