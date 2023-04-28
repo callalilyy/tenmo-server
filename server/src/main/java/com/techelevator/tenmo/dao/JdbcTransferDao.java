@@ -33,7 +33,7 @@ public class JdbcTransferDao implements TransferDao {
     }
 
     @Override
-    public boolean create(int userId, double balance) {
-        return false;
+    public Transfer create(Transfer transfer) {
+        return transfer;
     }
 }

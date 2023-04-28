@@ -71,7 +71,9 @@ public class JdbcUserDao implements UserDao {
 
         // TODO: Create the account record with initial balance
         Account newAccount = new Account();
+        newAccount.setUserId(newUserId);
         accountDao.create(newAccount);
+
         return true;
     }
 

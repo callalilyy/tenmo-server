@@ -15,6 +15,6 @@ public interface TransferDao {
 
     public int findTransferIdById(int id);
 
-    public Transfer create(int userId, double balance);
+    public Transfer create(Transfer transfer);
 
 }
