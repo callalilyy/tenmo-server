@@ -1,16 +1,25 @@
 package com.techelevator.tenmo.model;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.LocalDateTime;
 
 public class Transfer {
+    @JsonProperty("transfer_id")
     private int transferId;
+    @JsonProperty("sender_id")
     private int senderId;
+    @JsonProperty("receiver_id")
     private int receiverId;
+    @JsonProperty("te_bucks")
     private double teBucks;
     private String status;
+    @JsonProperty("date_created")
     private LocalDateTime dateCreated;
+    @JsonProperty("sender_name")
     private String senderName;
+    @JsonProperty("receiver_name")
     private String receiverName;
 
 

@@ -11,7 +11,7 @@ public interface TransferDao {
     public List<Transfer> findAll(int userId);
 
     //find transfer by transfer id
-    public Transfer findByTransferId(String transferId);
+    public Transfer findByTransferId(int transferId);
 
 
     //create transfer
