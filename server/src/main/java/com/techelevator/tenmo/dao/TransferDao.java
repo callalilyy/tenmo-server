@@ -7,16 +7,14 @@ import java.util.List;
 
 public interface TransferDao {
 
-    public List<Transfer> findAll();
+    //list all transfers
+    public List<Transfer> findAll(int userId);
 
+    //find transfer by transfer id
     public Transfer findByTransferId(String transferId);
 
-    public Transfer findBySenderId(int senderId);
 
-    public Transfer findByReceiverId(int receiverId);
-
-    public int findTransferIdById(int id);
-
+    //create transfer
     public Transfer create(Transfer transfer);
 
 }

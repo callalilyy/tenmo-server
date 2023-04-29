@@ -10,20 +10,23 @@ public class Transfer {
     private double teBucks;
     private String status;
     private LocalDateTime dateCreated;
-
+    private String senderName;
+    private String receiverName;
 
 
     public Transfer(){
 
     }
 
-    public Transfer(int transferId, int senderId, int receiverId, double teBucks, String status, LocalDateTime dateCreated){
+    public Transfer(int transferId, int senderId, int receiverId, double teBucks, String status, LocalDateTime dateCreated, String senderName, String receiverName){
         this.transferId = transferId;
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.teBucks = teBucks;
         this.status = status;
         this.dateCreated = dateCreated;
+        this.senderName = senderName;
+        this.receiverName = receiverName;
     }
 
 
@@ -73,6 +76,22 @@ public class Transfer {
 
     public void setDateCreated(LocalDateTime dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public String getSenderName() {
+        return senderName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
+    }
+
+    public String getReceiverName() {
+        return receiverName;
+    }
+
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
     }
 
     @Override
