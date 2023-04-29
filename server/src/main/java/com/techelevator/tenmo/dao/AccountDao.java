@@ -9,8 +9,9 @@ public interface AccountDao {
 
 
     //find list of all accounts
-    public List<Account> findAll();
+//    public List<Account> findAll();
 
+    public double getBalance(int accountid);
     //find account using account id
     public Account getAccountById(int accountId);
 
