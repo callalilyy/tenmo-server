@@ -15,11 +15,13 @@ import java.util.List;
 
 @Component
 @RestController
-@PreAuthorize("isAuthenticated()")
+//@PreAuthorize("isAuthenticated()")
 public class AccountController {
     @Autowired
     JdbcAccountDao accountDao;
+    @Autowired
     JdbcTransferDao transferDao;
+    @Autowired
     JdbcUserDao jdbcUserDao;
 
     //methods
@@ -32,27 +34,30 @@ public class AccountController {
 
 
 
-    //get account balance
+    //get account balance IS WORKING!!!!!!!
     @RequestMapping(path = "/tenmo/{id}", method = RequestMethod.GET)
-    public double getBalance(@PathVariable int id, Principal principal){
-        id = jdbcUserDao.findIdByUsername(principal.getName());
+    public double getBalance(@PathVariable int id){
+        //id = jdbcUserDao.findIdByUsername(principal.getName());
         return accountDao.getBalance(id);
 
     }
 
 
     //send a transfer
+    //@RequestMapping(path)
+
 
     //see transfers sent or received
-    @RequestMapping(path="/tenmo/{}", method = RequestMethod.GET)
-    public List<TransferDTO> getTransfers(@RequestBody TransferDTO transferDTO, Principal principal){
+    @RequestMapping(path="/tenmo", method = RequestMethod.GET)
+    public List<TransferDTO> getTransfers(){
         //get current logged-in user's id
         //pass that userId as the id needed to locate the transfers
         //return the transfers
-        return transferDao.getTransfers(principal.getName());
+        return transferDao.getTransfers();
     }
 
-    //retrieve details of transfer based on transfer id
+    //retrieve full details of transfer based on transfer id
+    //@RequestMapping
 
 
 //    public List<Transfer> getAllTransfers() {

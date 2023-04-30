@@ -12,7 +12,7 @@ public interface TransferDao {
     public List<Transfer> getDetailedTransfers(String username);
 
     //list of transfers with less info
-    public List<TransferDTO> getTransfers(String username);
+    public List<TransferDTO> getTransfers();
 
     //find transfer by transfer id
     public Transfer findByTransferId(int transferId);

@@ -21,11 +21,10 @@ public class JdbcTransferDao implements TransferDao {
 
 
     @Override
-    public List<TransferDTO> getTransfers(String username) {
+    public List<TransferDTO> getTransfers() {
         List<TransferDTO> transfers = new ArrayList<>();
-        String sql = "SELECT transfer_id, sender_name, receiver_name, te_bucks FROM transfer" +
-                "WHERE sender_name = ? OR receiver_name = ? ORDER BY date_created;";
-        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, username);
+        String sql = "SELECT transfer_id, sender_name, receiver_name, te_bucks FROM transfer;";             //"WHERE sender_name = ? OR receiver_name = ? ORDER BY date_created;";
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql);
         while(result.next()){
             transfers.add(mapRowToTransferDTO(result));
 
@@ -67,6 +66,7 @@ public class JdbcTransferDao implements TransferDao {
 
     @Override
     public Transfer create(Transfer transfer) {
+
         String sql = "INSERT INTO transfer (sender_id, receiver_id, te_bucks, status, date_created,sender_name, receiver_name)" +
                 "VALUES(?,?,?,?,?,?,?,?) RETURNING transfer_id;";
         int newId = jdbcTemplate.queryForObject(sql, int.class, transfer.getSenderId(), transfer.getReceiverId(), transfer.getTeBucks(), transfer.getStatus(), transfer.getDateCreated(), transfer.getSenderName(), transfer.getReceiverName());
