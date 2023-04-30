@@ -1,6 +1,7 @@
 package com.techelevator.tenmo.dao;
 
 import com.techelevator.tenmo.model.Transfer;
+import com.techelevator.tenmo.model.TransferDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.object.SqlCall;
@@ -20,18 +21,33 @@ public class JdbcTransferDao implements TransferDao {
 
 
     @Override
-    public List<Transfer> findAll(int userId) {
-        List<Transfer> transfers = new ArrayList<>();
-        String sql = "SELECT transfer_id, sender_id, receiver_id, te_bucks, status, date_created,sender_name, receiver_name" +
-                "FROM transfer WHERE sender_id = ? OR receiver_id = ? ORDER BY date_created;";
-        //NOT SURE IF USERID NEEDS TO PASSED TWICE
-        //NOT SURE IF I NEED TO LIST ALL COLUMNS IN SELECT STATEMENT TO MAPROWTOTRANSFER CORRECTLY or if I can select only columns I want
-        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, userId);
+    public List<TransferDTO> getTransfers(String username) {
+        List<TransferDTO> transfers = new ArrayList<>();
+        String sql = "SELECT transfer_id, sender_name, receiver_name, te_bucks FROM transfer" +
+                "WHERE sender_name = ? OR receiver_name = ? ORDER BY date_created;";
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, username);
         while(result.next()){
-            transfers.add(mapRowToTransfer(result));
+            transfers.add(mapRowToTransferDTO(result));
+
         }
         return transfers;
     }
+
+
+    @Override
+    public List<Transfer> getDetailedTransfers(String username) {
+        List<Transfer> detailedTransfers = new ArrayList<>();
+        String sql = "SELECT transfer_id, sender_id, receiver_id, te_bucks, status, date_created,sender_name, receiver_name" +
+                "FROM transfer WHERE sender_name = ? OR receiver_name = ? ORDER BY date_created;";
+        //NOT SURE IF USERID NEEDS TO PASSED TWICE
+        //NOT SURE IF I NEED TO LIST ALL COLUMNS IN SELECT STATEMENT TO MAPROWTOTRANSFER CORRECTLY or if I can select only columns I want
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, username);
+        while(result.next()){
+            detailedTransfers.add(mapRowToTransfer(result));
+        }
+        return detailedTransfers;
+    }
+
 
     @Override
     public Transfer findByTransferId(int transferId) {
@@ -60,16 +76,26 @@ public class JdbcTransferDao implements TransferDao {
 
 
     private Transfer mapRowToTransfer(SqlRowSet row){
-        Transfer transfer = new Transfer();
+        Transfer detailedTransfer = new Transfer();
+        detailedTransfer.setTransferId(row.getInt("transfer_id"));
+        detailedTransfer.setSenderId(row.getInt("sender_id"));
+        detailedTransfer.setReceiverId(row.getInt("receiver_id"));
+        detailedTransfer.setTeBucks(row.getDouble("te_bucks"));
+        detailedTransfer.setStatus(row.getString("status"));
+        detailedTransfer.setDateCreated(row.getTimestamp("date_created").toLocalDateTime());
+        detailedTransfer.setSenderName(row.getString("sender_name"));
+        detailedTransfer.setReceiverName(row.getString("receiver_name"));
+
+        return detailedTransfer;
+    }
+
+
+    private TransferDTO mapRowToTransferDTO(SqlRowSet row){
+        TransferDTO transfer = new TransferDTO();
         transfer.setTransferId(row.getInt("transfer_id"));
-        transfer.setSenderId(row.getInt("sender_id"));
-        transfer.setReceiverId(row.getInt("receiver_id"));
-        transfer.setTeBucks(row.getDouble("te_bucks"));
-        transfer.setStatus(row.getString("status"));
-        transfer.setDateCreated(row.getTimestamp("date_created").toLocalDateTime());
         transfer.setSenderName(row.getString("sender_name"));
         transfer.setReceiverName(row.getString("receiver_name"));
-
+        transfer.setTeBucks(row.getDouble("te_bucks"));
         return transfer;
     }
 

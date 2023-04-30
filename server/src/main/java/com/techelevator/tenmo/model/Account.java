@@ -10,9 +10,7 @@ public class Account {
     private int accountId;
     @JsonProperty("user_id")
     private int userId;
-    private double balance = 1000.00;
-
-
+    private double balance;
 
 
     public Account(){

@@ -7,9 +7,11 @@ import java.util.List;
 
 public interface AccountDao {
 
+//
+//    //find list of all accounts
+//    public List<Account> findAll();
 
-    //find list of all accounts
-    public List<Account> findAll();
+    public double getBalance(int accountid);
 
     //find account using account id
     public Account getAccountById(int accountId);
