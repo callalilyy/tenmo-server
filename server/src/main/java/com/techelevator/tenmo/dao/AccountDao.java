@@ -11,7 +11,7 @@ public interface AccountDao {
 //    //find list of all accounts
 //    public List<Account> findAll();
 
-    public double getBalance(int accountid);
+    public double getBal(int accountId);
 
     //find account using account id
     public Account getAccountById(int accountId);
@@ -20,7 +20,12 @@ public interface AccountDao {
     public Account getAccountByUserId(String userId);
 
     //create account using account id
-    public Account create(Account account);
+    public boolean create(int userId);
 
+    //update account
+    public boolean update(Account updatedAccount, int userId);
+
+    //delete account
+    public void delete(int accountId);
 
 }

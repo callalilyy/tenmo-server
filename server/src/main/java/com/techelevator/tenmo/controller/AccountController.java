@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 
-@Component
+
 @RestController
 //@PreAuthorize("isAuthenticated()")
 public class AccountController {
@@ -35,11 +35,11 @@ public class AccountController {
 
 
     //get account balance IS WORKING!!!!!!!
-    @RequestMapping(path = "/tenmo/{id}", method = RequestMethod.GET)
-    public double getBalance(@PathVariable int id){
-        //id = jdbcUserDao.findIdByUsername(principal.getName());
-        return accountDao.getBalance(id);
-
+    @RequestMapping(path = "/balance", method = RequestMethod.GET)
+    public double getBalance(Principal principal){
+        int id = jdbcUserDao.findIdByUsername(principal.getName());
+        System.out.println(id);
+        return accountDao.getBal(id);
     }
 
 
@@ -47,17 +47,23 @@ public class AccountController {
     //@RequestMapping(path)
 
 
-    //see transfers sent or received
-    @RequestMapping(path="/tenmo", method = RequestMethod.GET)
-    public List<TransferDTO> getTransfers(){
-        //get current logged-in user's id
-        //pass that userId as the id needed to locate the transfers
-        //return the transfers
-        return transferDao.getTransfers();
+
+
+    //get transfers sent or received
+    @RequestMapping(path="/transfers", method = RequestMethod.GET)
+    public List<TransferDTO> getTransfers(Principal principal){
+        String username = principal.getName();
+        return transferDao.getTransfers(username);
     }
 
     //retrieve full details of transfer based on transfer id
     //@RequestMapping
+
+    @RequestMapping(path="/transfer/{id}", method = RequestMethod.GET)
+    public TransferDTO getTransfer(Principal principal){
+        int transferId =0;
+        return transferDao.getTransfer(transferId);
+    }
 
 
 //    public List<Transfer> getAllTransfers() {

@@ -2,12 +2,16 @@ package com.techelevator.tenmo.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.time.LocalDateTime;
+
 public class TransferDTO {
 
     private int transferId;
     private String senderName;
     private String receiverName;
     private double teBucks;
+    private LocalDateTime dateCreated;
+    private String status;
 
 
     public TransferDTO(){};
@@ -51,13 +55,31 @@ public class TransferDTO {
         this.teBucks = teBucks;
     }
 
+    public LocalDateTime getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(LocalDateTime dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "TransferDTO{" +
                 "transferId=" + transferId +
-                ", senderName=" + senderName +
-                ", receiverName=" + receiverName +
+                ", senderName='" + senderName + '\'' +
+                ", receiverName='" + receiverName + '\'' +
                 ", teBucks=" + teBucks +
+                ", dateCreated=" + dateCreated +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

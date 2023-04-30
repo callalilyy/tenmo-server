@@ -8,17 +8,16 @@ import java.util.List;
 
 public interface TransferDao {
 
-    //list all transfers with all details
-    public List<Transfer> getDetailedTransfers(String username);
+
+
 
     //list of transfers with less info
-    public List<TransferDTO> getTransfers();
+    public List<TransferDTO> getTransfers(String username);
 
     //find transfer by transfer id
-    public Transfer findByTransferId(int transferId);
-
+    public TransferDTO getTransfer(int transferId);
 
     //create transfer
-    public Transfer create(Transfer transfer);
+    public TransferDTO create(Transfer transfer);
 
 }

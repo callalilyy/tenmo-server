@@ -30,14 +30,13 @@ public class JdbcAccountDao implements AccountDao {
 //    }
 
     @Override
-    public double getBalance(int userId) {
+    public double getBal(int userId) {
         double balance;
         String sql = "SELECT balance FROM account WHERE user_id = ?;";
         balance = jdbcTemplate.queryForObject(sql, double.class, userId);
         return balance;
 
     }
-
 
 
     @Override
@@ -51,6 +50,7 @@ public class JdbcAccountDao implements AccountDao {
         return null;
     }
 
+
     @Override
     public Account getAccountByUserId(String userId) {
         String sql = "SELECT account_id, user_id, balance FROM account WHERE user_id = ?;";
@@ -62,11 +62,23 @@ public class JdbcAccountDao implements AccountDao {
 
     }
 
+
     @Override
-    public Account create(Account account) {
-        String sql = "INSERT INTO account (user_id, balance) VALUES (?,?) RETURNING account_id;";
-        int accountId = jdbcTemplate.queryForObject (sql, int.class, account.getUserId(), 1000.00);
-        return getAccountById(accountId);
+    public boolean create(int userId) {
+        String sql = "INSERT INTO account (user_id, balance) VALUES (?,?);";
+         jdbcTemplate.update(sql, userId, 1000);
+        return true;
+    }
+
+    @Override
+    public boolean update(Account updatedAccount, int userId) {
+        String sql = "UPDATE account SET balance = ? WHERE user_id = ?";
+        return jdbcTemplate.update(sql, updatedAccount.getBalance(), userId) ==1;
+    }
+
+    @Override
+    public void delete(int accountId) {
+
     }
 
 
