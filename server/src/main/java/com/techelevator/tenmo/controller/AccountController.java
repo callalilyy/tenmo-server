@@ -32,7 +32,7 @@ public class AccountController {
 
     //get account balance IS WORKING!!!!!!!
     @RequestMapping(path = "/balance", method = RequestMethod.GET)
-    public double getBalance(Principal principal){
+    public double myBalance(Principal principal){
         int id = jdbcUserDao.findIdByUsername(principal.getName());
         System.out.println(id);
         return accountDao.getBal(id);
@@ -41,8 +41,8 @@ public class AccountController {
 
     //get list of users
     @RequestMapping(path = "/get-users", method = RequestMethod.GET)
-    public List<String> userList(){
-        return jdbcUserDao.findAll();
+    public List<String> userList(Principal principal){
+        return jdbcUserDao.findAll(principal.getName());
     }
 
 
@@ -50,27 +50,24 @@ public class AccountController {
 
     //get transfers sent or received
     @RequestMapping(path="/transfers", method = RequestMethod.GET)
-    public List<TransferDTO> getTransfers(Principal principal){
-        String username = principal.getName();
-        return transferDao.getTransfers(username);
+    public List<TransferDTO> myTransfers(Principal principal){
+        return transferDao.getTransfers(principal.getName());
     }
 
 
 
     @RequestMapping(path="/transfer/{id}", method = RequestMethod.GET)
-    public TransferDTO getTransfer(@PathVariable int transferId, Principal principal){
-         transferId =0;
+    public TransferDTO getOneTransfer(@PathVariable int transferId, Principal principal){
         return transferDao.getTransfer(transferId);
     }
 
 
 
     @RequestMapping(path="/transfer", method = RequestMethod.POST)
-    public Transfer sendTransfer(@RequestBody Transfer transfer){
-        return transfer;
+    public TransferDTO sendTransfer(Principal principal, @RequestBody Transfer transfer){
+       return transferDao.create(principal.getName(), transfer.getTeBucks() , transfer.getReceiverName());
+
     }
-
-
 
 
 

@@ -1,5 +1,7 @@
 package com.techelevator.tenmo.dao;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.TransferDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +21,10 @@ public class JdbcTransferDao implements TransferDao {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private JdbcAccountDao accountDao;
+    @Autowired
+    private JdbcUserDao userDao;
 
 
     @Override
@@ -49,16 +56,36 @@ public class JdbcTransferDao implements TransferDao {
 
 
     @Override
-    public TransferDTO create(Transfer transfer) {
-        //loop through users to find targeted receiver
-        //select user_id
-        //insert user_id into
-        //do methods here and use update statement to update database
+    public TransferDTO create( String senderName, Double transferAmount,String receiverName) {
+
+//        String sql = "SELECT user_id FROM user WHERE username = ?;";
+//        Integer receiverId = jdbcTemplate.queryForObject(sql, Integer.class, receiverName);
+
+
+//        String sol = "SELECT user_id FROM user WHERE username = ?;";
+//        Integer senderId = jdbcTemplate.queryForObject(sql, Integer.class, senderName);
+
+
+        Integer senderId = userDao.findIdByUsername(senderName);
+        accountDao.debit(senderId,transferAmount);
+
+        //select user
+        Integer receiverId = userDao.findIdByUsername(receiverName);
+        accountDao.credit(receiverId,transferAmount);
 
         String sql = "INSERT INTO transfer (sender_id, receiver_id, te_bucks, status, date_created,sender_name, receiver_name)" +
-                "VALUES(?,?,?,?,?,?,?,?) RETURNING transfer_id;";
-        int newId = jdbcTemplate.queryForObject(sql, int.class, transfer.getSenderId(), transfer.getReceiverId(), transfer.getTeBucks(), transfer.getStatus(), transfer.getDateCreated(), transfer.getSenderName(), transfer.getReceiverName());
-        return getTransfer(newId);
+                "VALUES(?,?,?,?,?,?,?) RETURNING transfer_id;";
+        Integer newId;
+        String status = "approved";
+        try {
+            newId = jdbcTemplate.queryForObject(sql, Integer.class, senderId, receiverId, transferAmount,status, LocalDateTime.now(), senderName, receiverName);
+            if(newId != null){
+                return getTransfer(newId);
+            }
+        } catch (NullPointerException e) {
+            throw new NullPointerException("Could not create transfer");
+        }
+        return null;
     }
 
 

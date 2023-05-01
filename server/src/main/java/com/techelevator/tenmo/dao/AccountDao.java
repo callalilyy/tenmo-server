@@ -23,7 +23,9 @@ public interface AccountDao {
     public boolean create(int userId);
 
     //update account
-    public boolean update(Account updatedAccount, int userId);
+    public boolean debit(int userId, Double amount);
+
+    public boolean credit(int userId, Double amount);
 
     //delete account
     public void delete(int accountId);

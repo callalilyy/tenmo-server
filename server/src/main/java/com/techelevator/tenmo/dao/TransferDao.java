@@ -18,6 +18,6 @@ public interface TransferDao {
     public TransferDTO getTransfer(int transferId);
 
     //create transfer
-    public TransferDTO create(Transfer transfer);
+    public TransferDTO create( String receiverName, Double transferAmount, String senderName);
 
 }
