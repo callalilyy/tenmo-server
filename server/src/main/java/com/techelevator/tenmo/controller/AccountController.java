@@ -3,6 +3,7 @@ package com.techelevator.tenmo.controller;
 import com.techelevator.tenmo.dao.JdbcAccountDao;
 import com.techelevator.tenmo.dao.JdbcTransferDao;
 import com.techelevator.tenmo.dao.JdbcUserDao;
+import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.TransferDTO;
 import com.techelevator.tenmo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +25,7 @@ public class AccountController {
     @Autowired
     JdbcUserDao jdbcUserDao;
 
-    //methods
-    // example below
-//    @RequestMapping(path="/notes", method = RequestMethod.POST)
-//    public Note createNote(@RequestBody Note note){
-//        return notesDao.createNote(note);
-//    }
+
 
 
 
@@ -43,8 +39,11 @@ public class AccountController {
     }
 
 
-    //send a transfer
-    //@RequestMapping(path)
+    //get list of users
+    @RequestMapping(path = "/get-users", method = RequestMethod.GET)
+    public List<String> userList(){
+        return jdbcUserDao.findAll();
+    }
 
 
 
@@ -56,20 +55,20 @@ public class AccountController {
         return transferDao.getTransfers(username);
     }
 
-    //retrieve full details of transfer based on transfer id
-    //@RequestMapping
+
 
     @RequestMapping(path="/transfer/{id}", method = RequestMethod.GET)
-    public TransferDTO getTransfer(Principal principal){
-        int transferId =0;
+    public TransferDTO getTransfer(@PathVariable int transferId, Principal principal){
+         transferId =0;
         return transferDao.getTransfer(transferId);
     }
 
 
-//    public List<Transfer> getAllTransfers() {
-//        return transferDao.getAllTransfers();
-//    }
 
+    @RequestMapping(path="/transfer", method = RequestMethod.POST)
+    public Transfer sendTransfer(@RequestBody Transfer transfer){
+        return transfer;
+    }
 
 
 
